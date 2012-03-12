@@ -1,0 +1,20 @@
+<div class="control-group {{#if error}}error{{/if}}"> 
+    <label class="control-label">{{label}}</label>
+    <div class="controls">
+        
+        {{#options}}
+
+        <label class="radio">
+            <input type="radio" name="{{../name}}" value="{{value}}" />
+            {{label}}
+        </label>
+
+        {{/options}}
+        
+        {{#if error}}
+            <span class="help-inline">
+                {{error.message}}
+            </span>
+        {{/if}}
+    </div>
+</div>

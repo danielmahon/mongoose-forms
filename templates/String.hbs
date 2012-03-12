@@ -1,0 +1,12 @@
+<div class="control-group {{#if error}}error{{/if}}"> 
+    <label class="control-label">{{label}}</label>
+    <div class="controls">
+        <input type="text" name="{{name}}" value="{{#if value}}{{value}}{{/if}}" class="{{#if class}}{{class}}{{/if}}" />
+    
+        {{#if error}}
+            <span class="help-inline">
+                {{error.message}}
+            </span>
+        {{/if}}
+    </div>
+</div>
