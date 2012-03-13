@@ -104,10 +104,10 @@ var form = forms.Form(Site, {
 
 ### Simplify life with a builder (name it something like: forms/User.js)
 
+```javascript
 var forms = require('mongoose-forms');
 var User  = require('../models/User.js');
 
-```javascript
 exports.Form = function() {
   return forms.Form(User, {
     method: 'post',
