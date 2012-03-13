@@ -128,6 +128,19 @@ exports.Form = function() {
 }
 ```
 
+Then include it in your program, and do stuff with it!
+
 ```javascript
-var UserForm = require('./lib/forms/User.js').Form;
+var Bridge      = require('mongoose-forms').Bridge;
+
+var User        = require('./lib/models/User.js');
+var UserForm    = require('./lib/forms/User.js').Form;
+
+
+User.find({ username: 'Foobar' }, function(err, user) {
+  renderSomeTemplate({
+    form: Bridge(user, new UserForm).getForm()
+  });
+});
+
 ```
