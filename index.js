@@ -101,12 +101,12 @@ function bindHelpers(hbs, style) {
     style = 'default';
   }
 
-  
-  var templateMap = {};
+  var templateMap = {
+    String: 'Input'
+  };
+
   var templates = {};
   var path = __dirname + '/templates';
-
-  var files = fs.readdirSync(path);
 
   function getTemplate(instance) {
     
@@ -119,17 +119,44 @@ function bindHelpers(hbs, style) {
     return templates['String'];
   }
 
+  function loadTemplates(path) {
+    var files = fs.readdirSync(path);
+    for(var file in files) {
+      
+      var match = files[file].match(/(^.+)\.hbs$/i);
+      if (!match || match[1] in templates) continue;
 
-  for(var file in files) {
-    
-    var match = files[file].match(/(^.+)\.hbs$/i);
-
-    if (!match) continue;
-    
-    var contents = fs.readFileSync(path + '/' + files[file], 'utf8');
-    
-    templates[match[1]] = handlebars.compile(contents);
+      var contents = fs.readFileSync(path + '/' + files[file], 'utf8');
+      templates[match[1]] = handlebars.compile(contents);
+    }
   }
+
+  if(style !== 'default') {
+    loadTemplates(path + '/' + style);
+  }
+
+  loadTemplates(path);
+ 
+  function renderField(field) {
+    
+    var type = 'String';
+
+    if('template' in field) {
+      type = field.template;
+    } else if('instance' in field.type) {
+      type = field.type.instance;
+    }
+
+    var t = getTemplate(type);
+
+    if(t) {
+      return t(field);
+    }
+
+    return '';
+  }
+
+  hbs.registerHelper('renderField', renderField);
 
   hbs.registerHelper('renderForm', function(form) {
     
@@ -137,19 +164,7 @@ function bindHelpers(hbs, style) {
 
     form.eachField(function(field) {
       
-      var type = 'String';
-
-      if('view' in field) {
-        type = field.view;
-      } else if('instance' in field.type) {
-        type = field.type.instance;
-      }
-
-      var t = getTemplate(type);
-
-      if(t) {
-        out += t(field);
-      }
+      out += renderField(field);
 
     });
 
