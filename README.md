@@ -1,6 +1,6 @@
 # Mongoose Forms
 
-A form library for Mongoose ODM using Handlebars templates and node validator
+A form templating and validation library for Mongoose ODM using Handlebars templates and node validator
 
 ## Installing
 
@@ -21,7 +21,7 @@ var form = mongooseForms.Form(Model); // Form fields will be generated from sche
 
 ### Render Using Handlebars
 
-Register our helper
+Register our helpers
 
 ```javascript
 mongooseForms.bindHelpers(Handlebars, 'bootstrap'); // Using the bootstrap markup style
@@ -35,7 +35,7 @@ Call from inside template
 </div>
 ```
 
-### Save Model from Form (showing Express route) 
+### Save Model from Form (showing Express POST route) 
 
 ```javascript
 var Bridge = require('mongoose-forms').Bridge;
@@ -46,20 +46,20 @@ app.post('/site/create', function(req, res) {
 
   if(!form.isValid(req.body)) { ... Rerender form, automatically showing errors ... }
 
-  Bridge(new Site, form)
+  Bridge(new Site, form) // Bridge populates Model from Form
     .getModel()
     .save(function(err, site) { });
 });
 ```
 
-### Populate Form from Model (showing Express route)
+### Populate Form from Model (showing Express GET route)
 
 ```javascript
 app.get('/site/:id', function(req, res) {
 
   Site.findById(req.params.id, function(err, site) {
 
-    var form = Bridge(site, new SiteForm).getForm();
+    var form = Bridge(site, new SiteForm).getForm(); // bridge populates Form from Model
     
     res.render('update', { form: form });
   });
@@ -100,4 +100,34 @@ var form = forms.Form(Site, {
   }
 });
 
+```
+
+### Simplify life with a builder (name it something like: forms/User.js)
+
+var forms = require('mongoose-forms');
+var User  = require('../models/User.js');
+
+```javascript
+exports.Form = function() {
+  return forms.Form(User, {
+    method: 'post',
+    action: '/user/create',
+    maps: ['username', 'password'],
+    fields: {
+      password: {
+        template: 'Password',
+        validate: function(value, check) {
+          check(value, 'Minimum 6 characters and maximum 10').len(6, 10);
+        }
+      },
+      submit: {
+        template: 'Submit'
+      }
+    }
+  });
+}
+```
+
+```javascript
+var UserForm = require('./lib/forms/User.js').Form;
 ```
