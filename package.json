@@ -3,6 +3,7 @@
   "name": "mongoose-forms",
   "description": "Mongoose forms using Handlebars",
   "version": "0.0.1",
+  "keywords": ["mongoose", "orm", "forms", "validation", "handlebars"],
   "repository": {
     "url": "git://github.com/oJshua/mongoose-forms.git"
   },
