@@ -1,0 +1,14 @@
+{
+  "development": {
+    "app": {
+      "hostname": "http://localhost:3000",
+      "db": "mongodb://localhost/sites_dev"
+    }
+  },
+  "production": {
+    "app": {
+      "hostname": "http://localhost:3000",
+      "db": "mongodb://localhost/sites"
+    }
+  }
+}

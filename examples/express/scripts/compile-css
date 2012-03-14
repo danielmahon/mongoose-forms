@@ -1,0 +1,41 @@
+#!/usr/bin/env node
+
+var stylus  = require('stylus'),
+    fs      = require('fs'),
+    nib     = require('nib');
+
+var path = fs.realpathSync(__dirname + '/../public/stylesheets');
+
+var files = fs.readdirSync(path);
+
+function compile(file) {
+
+  return function() {
+
+    var stylesheet = fs.readFileSync(path + '/' + file, 'utf8');
+    
+    console.log(file);
+    
+    stylus(stylesheet)
+      .set('filename', file)
+      .set('paths', [path])
+      .use(nib())
+      .render(function(err, css) {
+      
+        if (err) throw err;
+      
+        fs.writeFileSync(path + '/' + file.replace('.styl', '.css'), css);
+      });
+  }
+}
+
+for(file in files) {
+
+  if (!files[file].match(/^.+\.styl$/g)) continue;
+  
+  var c = compile(files[file]);
+  
+  fs.watchFile(path + '/' + files[file], c);
+  
+  c();
+}
