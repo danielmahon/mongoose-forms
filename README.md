@@ -12,11 +12,10 @@ A form templating and validation library for Mongoose ODM using Handlebars templ
 
 ```javascript
 var Form    = require('mongoose-forms').Form;
-var Model   = require('../models/Model.js')
+var Model   = require('./lib/models/Model.js')
 
-var form = mongooseForms.Form(Model); // Form fields will be generated from schema
-                                      // with default values and type detection
-
+var form    = Form(Model); // Form fields will be generated from schema
+                           // with default values and type detection
 ```
 
 ### Render Using Handlebars
@@ -108,7 +107,7 @@ var form = forms.Form(Site, {
 var forms = require('mongoose-forms');
 var User  = require('../models/User.js');
 
-exports.Form = function() {
+module.exports = function() {
   return forms.Form(User, {
     method: 'post',
     action: '/user/create',
@@ -134,7 +133,7 @@ Then include it in your program, and do stuff with it!
 var Bridge      = require('mongoose-forms').Bridge;
 
 var User        = require('./lib/models/User.js');
-var UserForm    = require('./lib/forms/User.js').Form;
+var UserForm    = require('./lib/forms/User.js');
 
 
 User.find({ username: 'Foobar' }, function(err, user) {
