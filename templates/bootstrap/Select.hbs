@@ -3,12 +3,16 @@
     <div class="controls">
         <select class="{{class}}" name="{{name}}">
         {{#options}}
-            <option value="{{value}}">{{name}}</option>
+            <option value="{{value}}" {{#if selected}}selected="selected"{{/if}}>{{label}}</option>
         {{/options}}
         </select>
     
         {{#if error}}
         <span class="help-inline">{{error}}</span>
+        {{else}}
+            {{#if helpInline}}
+                <span class="help-inline">{{{helpInline}}}</span>
+            {{/if}}
         {{/if}}
     </div>
 </div>

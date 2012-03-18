@@ -3,7 +3,7 @@
     <div class="controls">
         {{#options}}
         <label class="checkbox">
-            <input type="checkbox" name="{{../name}}" value="{{value}}" />
+            <input type="checkbox" name="{{../name}}" value="{{value}}" {{#if selected}}checked="checked"{{/if}} />
             {{label}}
         </label>
         {{/options}}

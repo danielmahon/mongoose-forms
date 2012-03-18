@@ -5,10 +5,10 @@
     
         {{#if error}}
         <span class="help-inline">{{error}}</span>
-        {{/if}}
-
-        {{#if helpInline}}
-        <span class="help-inline">{{helpInline}}</span>
+        {{else}}
+            {{#if helpInline}}
+                <span class="help-inline">{{{helpInline}}}</span>
+            {{/if}}         
         {{/if}}
     </div>
 </div>
