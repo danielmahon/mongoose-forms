@@ -2,7 +2,7 @@
   "author": "Josh Hundley <josh.hundley@gmail.com> (http://flightofthought.com)",
   "name": "mongoose-forms",
   "description": "Mongoose forms using Handlebars",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "keywords": ["mongoose", "orm", "forms", "validation", "handlebars"],
   "repository": {
     "url": "git://github.com/oJshua/mongoose-forms.git"
